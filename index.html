@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090d0b">
+  <meta name="description" content="探索人工智慧的創意、應用與未來可能。">
+  <title>NEURAL — 探索 AI 的無限可能</title>
+  <style>
+    :root {
+      --bg: #090d0b;
+      --surface: #101713;
+      --surface-2: #151e18;
+      --text: #edf3ee;
+      --muted: #9aa99e;
+      --green: #83b995;
+      --green-bright: #a6d7b5;
+      --line: rgba(180, 220, 190, .13);
+      --max: 1120px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.7; letter-spacing: .015em;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(var(--max), calc(100% - 48px)); margin: auto; }
+    .nav-wrap {
+      position: fixed; inset: 0 0 auto; z-index: 10;
+      background: rgba(9,13,11,.78); backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+    }
+    nav { height: 76px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 1.08rem; font-weight: 800; letter-spacing: .2em; }
+    .logo span { color: var(--green); }
+    .nav-links { display: flex; gap: 30px; align-items: center; color: var(--muted); font-size: .9rem; }
+    .nav-links a:hover, .nav-links a.active { color: var(--green-bright); }
+    .menu-btn { display: none; color: var(--text); background: none; border: 0; font-size: 1.5rem; cursor: pointer; }
+    .hero { min-height: 760px; display: grid; align-items: center; padding: 150px 0 100px; position: relative; overflow: hidden; }
+    .hero::before {
+      content: ""; position: absolute; width: 620px; height: 620px; border-radius: 50%;
+      right: -90px; top: 100px; pointer-events: none;
+      background: radial-gradient(circle, rgba(65,130,85,.20), rgba(65,130,85,.05) 42%, transparent 70%);
+      filter: blur(10px);
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 60px; position: relative; }
+    .eyebrow { color: var(--green); font-size: .78rem; letter-spacing: .22em; font-weight: 700; text-transform: uppercase; }
+    h1 { font-size: clamp(3rem, 6.7vw, 5.9rem); line-height: 1.08; letter-spacing: -.055em; margin: 22px 0; font-weight: 750; }
+    h1 em { color: var(--green-bright); font-style: normal; }
+    .hero-copy { color: var(--muted); max-width: 540px; font-size: 1.04rem; }
+    .actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 34px; }
+    .btn { padding: 12px 21px; border-radius: 7px; border: 1px solid var(--line); font-size: .9rem; transition: .2s; display: inline-flex; align-items: center; gap: 10px; }
+    .btn-primary { background: var(--green); color: #09110c; border-color: var(--green); font-weight: 700; }
+    .btn-primary:hover { background: var(--green-bright); transform: translateY(-2px); }
+    .btn-ghost:hover { border-color: var(--green); color: var(--green-bright); }
+    .visual { min-height: 420px; display: grid; place-items: center; position: relative; }
+    .orbit { width: min(390px, 78vw); aspect-ratio: 1; border: 1px solid rgba(142,195,155,.24); border-radius: 50%; position: relative; display: grid; place-items: center; }
+    .orbit::before, .orbit::after { content: ""; position: absolute; border: 1px solid rgba(142,195,155,.16); border-radius: 50%; inset: 12%; }
+    .orbit::after { inset: 25%; border-color: rgba(142,195,155,.24); }
+    .core { width: 126px; height: 126px; border-radius: 32px; transform: rotate(45deg); background: linear-gradient(145deg, #294a34, #101b14 70%); border: 1px solid rgba(166,215,181,.55); box-shadow: 0 0 70px rgba(87,163,109,.2), inset 0 0 35px rgba(130,190,145,.13); display: grid; place-items: center; }
+    .core span { transform: rotate(-45deg); font-size: 2.2rem; color: var(--green-bright); font-weight: 300; }
+    .dot { position: absolute; width: 10px; height: 10px; background: var(--green-bright); border-radius: 50%; box-shadow: 0 0 18px var(--green); }
+    .dot.one { top: 13%; left: 27%; } .dot.two { right: 9%; top: 48%; width: 6px; height: 6px; } .dot.three { bottom: 13%; left: 48%; width: 7px; height: 7px; }
+    .float-label { position: absolute; color: #b4c8b9; border: 1px solid var(--line); background: rgba(16,23,19,.8); padding: 8px 13px; border-radius: 6px; font-size: .75rem; letter-spacing: .08em; }
+    .label-a { top: 17%; right: -2%; } .label-b { bottom: 16%; left: -1%; }
+    section { padding: 110px 0; }
+    .section-head { max-width: 650px; margin-bottom: 48px; }
+    .section-head h2 { font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1.2; letter-spacing: -.04em; margin: 12px 0 16px; }
+    .section-head p { color: var(--muted); margin: 0; }
+    .about-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; align-items: start; }
+    .about-note { border-left: 2px solid var(--green); padding: 5px 0 5px 22px; color: var(--muted); }
+    .about-note strong { display: block; color: var(--text); font-size: 1.2rem; margin-bottom: 8px; }
+    .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 32px; }
+    .stat { padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 9px; }
+    .stat b { display: block; font-size: 1.7rem; color: var(--green-bright); }
+    .stat span { color: var(--muted); font-size: .82rem; }
+    .soft-section { background: #0d130f; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 11px; padding: 28px; transition: .25s; }
+    .card:hover { transform: translateY(-5px); border-color: rgba(142,195,155,.48); background: #131d16; }
+    .icon { width: 43px; height: 43px; border: 1px solid rgba(142,195,155,.3); color: var(--green-bright); display: grid; place-items: center; border-radius: 9px; font-size: 1.2rem; margin-bottom: 22px; }
+    .card h3 { margin: 0 0 10px; font-size: 1.13rem; }
+    .card p { color: var(--muted); font-size: .9rem; margin: 0; }
+    .tag { display: inline-block; color: var(--green); font-size: .72rem; letter-spacing: .1em; margin-top: 22px; }
+    .work-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 18px; }
+    .work-card { min-height: 250px; padding: 30px; background: linear-gradient(140deg, #17251b, #101713 70%); border: 1px solid var(--line); border-radius: 11px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; position: relative; }
+    .work-card:nth-child(2) { background: linear-gradient(140deg, #18201b, #111612 70%); }
+    .work-card:nth-child(3) { background: linear-gradient(140deg, #17221c, #101713 70%); }
+    .work-card::after { content: ""; position: absolute; width: 180px; height: 180px; border: 1px solid rgba(166,215,181,.18); border-radius: 50%; right: -45px; top: -55px; box-shadow: 0 0 0 25px rgba(166,215,181,.025), 0 0 0 50px rgba(166,215,181,.02); }
+    .work-card h3 { font-size: 1.45rem; margin: 8px 0; position: relative; z-index: 1; }
+    .work-card p { max-width: 420px; color: var(--muted); font-size: .9rem; position: relative; z-index: 1; }
+    .work-card a { color: var(--green-bright); font-size: .85rem; position: relative; z-index: 1; }
+    .work-card.wide { grid-row: span 2; min-height: 520px; }
+    .work-card.wide .art { margin: 24px auto; width: 210px; height: 210px; border: 1px solid rgba(166,215,181,.35); border-radius: 50%; display: grid; place-items: center; color: var(--green-bright); font-size: 4rem; box-shadow: 0 0 70px rgba(100,170,120,.12); }
+    .quote { text-align: center; max-width: 790px; margin: auto; }
+    .quote blockquote { margin: 18px 0; font-size: clamp(1.5rem, 3.3vw, 2.5rem); line-height: 1.45; letter-spacing: -.025em; }
+    .quote p { color: var(--muted); font-size: .9rem; }
+    .contact { background: linear-gradient(120deg, #122017, #0d130f 65%); border: 1px solid var(--line); border-radius: 14px; padding: 55px; display: flex; justify-content: space-between; align-items: center; gap: 25px; }
+    .contact h2 { font-size: clamp(1.8rem, 4vw, 2.7rem); margin: 8px 0; letter-spacing: -.04em; }
+    .contact p { color: var(--muted); margin: 0; }
+    footer { padding: 30px 0; color: #75847a; font-size: .8rem; border-top: 1px solid var(--line); }
+    footer .container { display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    @media (max-width: 800px) {
+      .hero-grid, .about-grid { grid-template-columns: 1fr; gap: 30px; }
+      .hero { min-height: auto; padding: 140px 0 70px; }
+      .visual { min-height: 350px; }
+      .cards { grid-template-columns: repeat(2,1fr); }
+      .work-grid { grid-template-columns: 1fr 1fr; }
+      .work-card.wide { grid-column: span 2; grid-row: auto; min-height: 390px; }
+      .contact { padding: 38px; }
+    }
+    @media (max-width: 560px) {
+      .container { width: min(100% - 36px, var(--max)); }
+      nav { height: 66px; }
+      .menu-btn { display: block; }
+      .nav-links { display: none; position: absolute; top: 66px; left: 0; right: 0; padding: 20px 24px 25px; background: #0c120e; border-bottom: 1px solid var(--line); flex-direction: column; align-items: flex-start; gap: 18px; }
+      .nav-links.open { display: flex; }
+      h1 { font-size: clamp(2.8rem, 14vw, 4.2rem); }
+      section { padding: 78px 0; }
+      .cards, .work-grid { grid-template-columns: 1fr; }
+      .work-card.wide { grid-column: auto; min-height: 390px; }
+      .stats { gap: 8px; }
+      .stat { padding: 14px 10px; }
+      .stat b { font-size: 1.35rem; }
+      .contact { flex-direction: column; align-items: flex-start; padding: 30px 24px; }
+      .label-a { right: -4%; } .label-b { left: -4%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-wrap">
+    <nav class="container" aria-label="主要導覽">
+      <a class="logo" href="#home" aria-label="NEURAL 首頁">NEU<span>R</span>AL.</a>
+      <button class="menu-btn" id="menuBtn" aria-label="開啟選單" aria-expanded="false">☰</button>
+      <div class="nav-links" id="navLinks">
+        <a href="#home">首頁</a><a href="#about">認識 AI</a><a href="#applications">應用領域</a><a href="#works">AI 作品</a><a href="#contact">聯絡我們</a>
+      </div>
+    </nav>
+  </div>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">Discover the intelligence</div>
+          <h1>讓想像力<br>遇見 <em>AI.</em></h1>
+          <p class="hero-copy">人工智慧正在改變我們理解世界、創造作品與解決問題的方式。一起探索科技背後的靈感，發現人與 AI 合作的更多可能。</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#about">開始探索 <span>↗</span></a>
+            <a class="btn btn-ghost" href="#works">瀏覽 AI 作品</a>
+          </div>
+        </div>
+        <div class="visual reveal" aria-label="抽象人工智慧視覺圖">
+          <div class="orbit"><div class="core"><span>AI</span></div><i class="dot one"></i><i class="dot two"></i><i class="dot three"></i></div>
+          <span class="float-label label-a">ARTIFICIAL INTELLIGENCE</span>
+          <span class="float-label label-b">HUMAN × MACHINE</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container about-grid">
+        <div class="section-head reveal">
+          <div class="eyebrow">01 / About AI</div>
+          <h2>認識人工智慧，<br>看見新的可能。</h2>
+          <p>AI 不只是冰冷的程式，更是一種協助人類思考、創作與探索的工具。</p>
+        </div>
+        <div class="reveal">
+          <div class="about-note">
+            <strong>什麼是 AI？</strong>
+            人工智慧（Artificial Intelligence）是讓電腦系統執行通常需要人類智慧的任務，例如理解語言、辨識影像、分析資料、生成內容與協助決策。
+          </div>
+          <div class="stats">
+            <div class="stat"><b>Learn</b><span>從資料中學習</span></div>
+            <div class="stat"><b>Create</b><span>協助創意生成</span></div>
+            <div class="stat"><b>Assist</b><span>讓工作更有效率</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="soft-section" id="applications">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="eyebrow">02 / Applications</div>
+          <h2>AI 正在發生的地方</h2>
+          <p>從日常生活到專業領域，人工智慧以不同形式融入我們的世界。</p>
+        </div>
+        <div class="cards">
+          <article class="card reveal"><div class="icon">✦</div><h3>創意與設計</h3><p>協助生成圖片、視覺概念、文字與音樂，讓靈感更快成形。</p><span class="tag">GENERATIVE AI</span></article>
+          <article class="card reveal"><div class="icon">⌘</div><h3>智慧助理</h3><p>理解自然語言、整理資訊、回答問題，成為學習與工作的助手。</p><span class="tag">AI ASSISTANT</span></article>
+          <article class="card reveal"><div class="icon">◎</div><h3>影像辨識</h3><p>分析照片與影片中的資訊，應用於影像分類、搜尋與辨識。</p><span class="tag">COMPUTER VISION</span></article>
+          <article class="card reveal"><div class="icon">⌁</div><h3>資料分析</h3><p>從大量資料中尋找規律，協助人們理解趨勢並做出判斷。</p><span class="tag">DATA INTELLIGENCE</span></article>
+          <article class="card reveal"><div class="icon">◈</div><h3>教育學習</h3><p>依照不同學習需求提供解說、練習方向與個人化學習輔助。</p><span class="tag">AI LEARNING</span></article>
+          <article class="card reveal"><div class="icon">↗</div><h3>未來科技</h3><p>結合機器人、自動化與各種新技術，探索更多創新應用。</p><span class="tag">NEXT FRONTIER</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="works">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="eyebrow">03 / AI Works</div>
+          <h2>AI 創作與實驗室</h2>
+          <p>看看 AI 如何把文字、想法與資料，轉化成不同形式的成果。</p>
+        </div>
+        <div class="work-grid">
+          <article class="work-card wide reveal">
+            <div><div class="eyebrow">Featured / 01</div><h3>生成式影像創作</h3><p>輸入一段描述，AI 就能將文字概念轉換成視覺畫面。從抽象藝術到產品情境，創作方式有了新的可能。</p></div>
+            <div class="art">✳</div>
+            <a href="#contact">探索創作想法 ↗</a>
+          </article>
+          <article class="work-card reveal">
+            <div><div class="eyebrow">Project / 02</div><h3>文字與對話</h3><p>讓 AI 協助整理內容、發想主題與建立知識脈絡。</p></div>
+            <a href="#contact">了解更多 ↗</a>
+          </article>
+          <article class="work-card reveal">
+            <div><div class="eyebrow">Project / 03</div><h3>智慧資料洞察</h3><p>將複雜資訊轉化為更容易理解的摘要與觀點。</p></div>
+            <a href="#contact">了解更多 ↗</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="soft-section">
+      <div class="container quote reveal">
+        <div class="eyebrow">A Thought About Tomorrow</div>
+        <blockquote>「AI 的價值，不只是讓機器更聰明，而是讓人類有更多空間去創造。」</blockquote>
+        <p>保持好奇，持續學習，讓科技成為想像力的延伸。</p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact reveal">
+          <div><div class="eyebrow">04 / Keep Exploring</div><h2>未來，從好奇開始。</h2><p>每一次提問，都可能開啟一個新的方向。</p></div>
+          <a class="btn btn-primary" href="mailto:hello@example.com">與我聯絡 <span>↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container"><span class="logo">NEU<span>R</span>AL.</span><span>© <span id="year"></span> NEURAL. Explore with curiosity.</span><span>Designed for a thoughtful future.</span></div></footer>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    menuBtn.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+      menuBtn.textContent = isOpen ? '×' : '☰';
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.textContent = '☰';
+      });
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
